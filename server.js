@@ -7,6 +7,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import {clean} from 'require-clean';
 import {exec} from 'child_process';
 import config from './webpack.config';
+import mongoose from 'mongoose';
 
 const APP_PORT = 3000;
 const GRAPHQL_PORT = 8080;
@@ -47,6 +48,8 @@ function startGraphQLServer(callback) {
     console.log(
       `GraphQL server is now running on http://localhost:${GRAPHQL_PORT}`
     );
+    mongoose.connect('mongodb://localhost/relay-todo');
+    console.log('connected to mongodb://localhost/relay-todo');
     if (callback) {
       callback();
     }

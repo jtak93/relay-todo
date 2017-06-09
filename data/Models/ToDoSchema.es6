@@ -11,19 +11,19 @@ let Todo = mongoose.model('Todo', TodoSchema);
 
 export default Todo;
 
+exports.getTodos = () => {
+  return new Promise((resolve, reject) => {
+    Todo.find({}).exec((err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
+};
+
 // exports.getTodoById = (root, {id}) => {
 //   return new Promise((resolve, reject) => {
 //     Todo.findOne({id:id}).exec((err, res) => {
 //       err ? reject(err) : resolve(res);
 //     })
-//   });
-// };
-//
-// exports.getListOfTodos = () => {
-//   return new Promise((resolve, reject) => {
-//     Todo.find({}).exec((err, res) => {
-//       err ? reject(err) : resolve(res);
-//     });
 //   });
 // };
 //
