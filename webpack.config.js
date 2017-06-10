@@ -1,5 +1,9 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 import path from 'path';
 import webpack from 'webpack';
+
+
+const env = process.env.NODE_ENV || 'development'
 
 const config = {
   entry: path.resolve(__dirname, 'js', 'app.js'),
@@ -18,6 +22,14 @@ const config = {
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(env),
+      },
+    }),
+    new BundleAnalyzerPlugin(),
+  ],
   output: {
     filename: 'app.js',
     path: '/',

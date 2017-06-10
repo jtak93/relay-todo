@@ -77,13 +77,10 @@ var userType = new GraphQLObjectType({
   description: 'A person who uses our app',
   fields: () => ({
     id: globalIdField('User'),
+    name: { type: GraphQLString },
     todos: {
-      type: todoConnection,
+      type: new GraphQLList(todoType),
       description: 'A person\'s collection of todos',
-      args: connectionArgs,
-      resolve: (_, args) => {
-        connectionFromArray(getTodos(), args)
-      },
     },
   }),
   interfaces: [nodeInterface],
@@ -105,8 +102,8 @@ var todoType = new GraphQLObjectType({
 /**
  * Define your own connection types here
  */
-var {connectionType: todoConnection} =
-  connectionDefinitions({name: 'Todo', nodeType: todoType});
+// var {connectionType: todoConnection} =
+//   connectionDefinitions({name: 'Todo', nodeType: todoType});
 
 /**
  * This is the type that will be the root of our query,

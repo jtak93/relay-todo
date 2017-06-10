@@ -1,33 +1,43 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { Input } from 'semantic-ui-react';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleNameChange = this.handleNameChange.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.props)
+  }
+
+  handleNameChange(e, data) {
+    console.log(data);
+    this.props.relay.setVariables({
+      name: data.value
+    })
+  }
   render() {
     return (
       <div>
-        <h1>Widget list</h1>
-        <ul>
-          {this.props.viewer.widgets.edges.map(edge =>
-            <li key={edge.node.id}>{edge.node.name} (ID: {edge.node.id})</li>
-          )}
-        </ul>
+        <Input placeholder='Enter Name...' onChange={this.handleNameChange} />
+        <h1>TODO list</h1>
       </div>
     );
   }
 }
 
 export default Relay.createContainer(App, {
+  initialVariables: {
+    name: ''
+  },
   fragments: {
     viewer: () => Relay.QL`
       fragment on User {
-        widgets(first: 10) {
-          edges {
-            node {
-              id,
-              name,
-            },
-          },
-        },
+        name
+        todos
       }
     `,
   },

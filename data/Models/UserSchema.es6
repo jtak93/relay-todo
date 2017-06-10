@@ -31,9 +31,13 @@ export const addUser = (name) => {
 
 export const getViewer = (name) => {
   return new Promise((resolve, reject) => {
-    User.findOne({name: name}, (err, user) => {
-      err ? reject(err) : resolve(user);
-    })
+    User.findOne({name: name}).populate('todos').exec()
+      .then(user => {
+        resolve(user)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 //
